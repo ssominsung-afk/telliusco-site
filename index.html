@@ -340,6 +340,13 @@
           </div>
           <label><span>Availability (start date)</span><input type="date" name="availability" disabled></label>
         </div>
+        <div id="employer-fields" hidden>
+          <div class="form-row">
+            <label><span>Worksite City / State</span><input type="text" name="city_state" required disabled placeholder="e.g. Savannah, GA" autocomplete="address-level2"></label>
+            <label><span>Positions Needed</span><input type="text" name="desired_role" required disabled placeholder="e.g. 5 Forklift Operators"></label>
+          </div>
+          <label><span>Workers Needed By</span><input type="date" name="availability" disabled></label>
+        </div>
         <label><span>How can we help?</span><textarea name="message" rows="4" required></textarea></label>
         <label id="resume-field" hidden><span>Attach resume (PDF, DOC, DOCX — max 5MB)</span><input type="file" name="resume" accept=".pdf,.doc,.docx"></label>
         <button class="btn btn-primary" type="submit">Send Inquiry</button>
@@ -412,12 +419,18 @@
   var resumeField = document.getElementById('resume-field');
   var resumeInput = form.querySelector('input[name="resume"]');
   var seekerFields = document.getElementById('seeker-fields');
+  var employerFields = document.getElementById('employer-fields');
   function syncSeekerFields() {
     var isSeeker = typeSelect.value.indexOf('Job seeker') === 0;
+    var isEmployer = typeSelect.value.indexOf('Employer') === 0;
     resumeField.hidden = !isSeeker;
     if (seekerFields) {
       seekerFields.hidden = !isSeeker;
       seekerFields.querySelectorAll('input,select').forEach(function (el) { el.disabled = !isSeeker; });
+    }
+    if (employerFields) {
+      employerFields.hidden = !isEmployer;
+      employerFields.querySelectorAll('input,select').forEach(function (el) { el.disabled = !isEmployer; });
     }
     if (!isSeeker && resumeInput) resumeInput.value = '';
   }
