@@ -322,6 +322,24 @@
             <option>Job seeker — I need work</option>
           </select>
         </label>
+        <div id="seeker-fields" hidden>
+          <div class="form-row">
+            <label><span>City / State</span><input type="text" name="city_state" required disabled placeholder="e.g. Savannah, GA" autocomplete="address-level2"></label>
+            <label><span>Desired Role</span>
+              <select name="desired_role" required disabled>
+                <option value="" disabled selected>Select a role</option>
+                <option>Warehouse Associate</option>
+                <option>Forklift Operator</option>
+                <option>General Labor</option>
+                <option>Manufacturing / Production</option>
+                <option>Office / Admin</option>
+                <option>Construction Support</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+          <label><span>Availability (start date)</span><input type="date" name="availability" disabled></label>
+        </div>
         <label><span>How can we help?</span><textarea name="message" rows="4" required></textarea></label>
         <label id="resume-field" hidden><span>Attach resume (PDF, DOC, DOCX — max 5MB)</span><input type="file" name="resume" accept=".pdf,.doc,.docx"></label>
         <button class="btn btn-primary" type="submit">Send Inquiry</button>
@@ -393,12 +411,18 @@
   var typeSelect = form.querySelector('select[name="inquiry_type"]');
   var resumeField = document.getElementById('resume-field');
   var resumeInput = form.querySelector('input[name="resume"]');
+  var seekerFields = document.getElementById('seeker-fields');
+  function syncSeekerFields() {
+    var isSeeker = typeSelect.value.indexOf('Job seeker') === 0;
+    resumeField.hidden = !isSeeker;
+    if (seekerFields) {
+      seekerFields.hidden = !isSeeker;
+      seekerFields.querySelectorAll('input,select').forEach(function (el) { el.disabled = !isSeeker; });
+    }
+    if (!isSeeker && resumeInput) resumeInput.value = '';
+  }
   if (typeSelect && resumeField) {
-    typeSelect.addEventListener('change', function () {
-      var isSeeker = typeSelect.value.indexOf('Job seeker') === 0;
-      resumeField.hidden = !isSeeker;
-      if (!isSeeker && resumeInput) resumeInput.value = '';
-    });
+    typeSelect.addEventListener('change', syncSeekerFields);
   }
   function readFileAsBase64(file) {
     return new Promise(function (resolve, reject) {
@@ -432,10 +456,10 @@
     };
     if (resumeInput && resumeInput.files.length > 0) {
       var f = resumeInput.files[0];
-      if (f.size > 10 * 1024 * 1024) {
+      if (f.size > 5 * 1024 * 1024) {
         btn.disabled = false;
         btn.textContent = 'Send Inquiry';
-        alert('Resume file must be under 10MB.');
+        alert('Resume file must be under 5MB.');
         return;
       }
       readFileAsBase64(f).then(function (b64) {
