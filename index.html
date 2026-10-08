@@ -454,6 +454,7 @@
     btn.textContent = 'Sending…';
     var send = function (extra) {
       var fd = new FormData(form);
+      fd.delete('resume'); // file is sent as base64 in resume_data instead (reliable through Apps Script)
       if (extra) { for (var k in extra) fd.append(k, extra[k]); }
       fetch(LEAD_ENDPOINT, { method: 'POST', body: fd })
         .then(function () {
