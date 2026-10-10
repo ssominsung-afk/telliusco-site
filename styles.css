@@ -277,3 +277,26 @@ a { color: inherit; }
 
 .hero-logo { height: 56px; width: auto; margin-bottom: 28px; display: block; align-self: flex-start; }
 @media (max-width: 960px) { .hero-logo { height: 42px; margin-bottom: 20px; } }
+
+/* ---------- language toggle ---------- */
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.42rem 0.75rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+.lang-toggle .lang-opt { opacity: 0.4; }
+.lang-toggle .lang-opt.active { opacity: 1; }
+.lang-toggle:hover { border-color: var(--orange); }
+@media (max-width: 960px) {
+  .lang-toggle { font-size: 0.75rem; padding: 0.35rem 0.6rem; }
+}
