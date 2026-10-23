@@ -43,6 +43,14 @@
   "openingHours": "Mo-Fr 08:00-18:00"
 }
 </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2XBDXBCEW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J2XBDXBCEW');
+</script>
 </head>
 <body>
 
@@ -940,6 +948,7 @@
       if (extra) { for (var k in extra) fd.append(k, extra[k]); }
       fetch(LEAD_ENDPOINT, { method: 'POST', body: fd })
         .then(function () {
+          if (window.gtag) gtag('event', 'generate_lead', { method: 'telliusco_inquiry_form' });
           btn.style.display = 'none';
           if (note) note.hidden = false;
           form.querySelectorAll('input,select,textarea').forEach(function (el) { el.disabled = true; });
